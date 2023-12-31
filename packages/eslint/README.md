@@ -7,7 +7,7 @@ This package provides a set of ESLint rules for 16 Bytes projects.
 1. Install the package:
 
 ```bash
-$ pnpm install -D @16bytes/eslint-config
+$ pnpm install -DE @16bytes/eslint-config
 ```
 
 2. Add the following to your `.eslintrc.json` file:
