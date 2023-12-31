@@ -1,6 +1,6 @@
 {
   "name": "@16bytes/style-guide",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "style guide for 16 bytes",
   "main": "index.js",
   "author": "Tobias Lindenberg",
