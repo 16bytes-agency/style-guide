@@ -1,0 +1,45 @@
+---
+name: deploy-npm
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  NODE_VERSION: 18
+
+jobs:
+  deploy-npm:
+    permissions:
+      contents: write
+      pull-requests: write
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Set up Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4.0.1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Installing dependencies
+        uses: nick-fields/retry@v2.9.0
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: pnpm install --frozen-lockfile
+
+      - name: Publish
+        run: |
+          echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' >> ./.npmrc
+          pnpm publish -r --access public --no-git-checks
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
